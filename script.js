@@ -1,52 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const contactForm = document.getElementById('contact-form');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Mencegah form untuk refresh halaman
-
-            // Ambil data dari form
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
-
-            // Di sini Anda bisa menambahkan logika untuk mengirim data,
-            // misalnya ke backend atau menampilkan pesan sukses.
-            console.log(`Pesan baru dari ${name} (${email}): ${message}`);
-            
-            alert('Pesan Anda telah terkirim! Terima kasih.');
-
-            // Reset form setelah dikirim
-            contactForm.reset();
-        });
-    }
-
-    // Smooth scroll untuk navigasi
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-});
-document.addEventListener('DOMContentLoaded', () => {
-    // Dapatkan elemen tombol hamburger dan daftar tautan navigasi
+    // --- Hamburger Menu Functionality ---
     const hamburgerMenu = document.getElementById('hamburger-menu'); 
     const navLinks = document.getElementById('nav-links'); 
 
-    // Pastikan kedua elemen ditemukan di DOM
     if (hamburgerMenu && navLinks) {
-        // Tambahkan event listener untuk mendeteksi klik pada tombol hamburger
         hamburgerMenu.addEventListener('click', () => {
-            // Tambah atau hapus kelas 'active' pada daftar tautan navigasi
             navLinks.classList.toggle('active');
         });
 
-        // Tambahkan event listener pada setiap tautan untuk menutup menu
-        // setelah diklik (opsional, tapi disarankan)
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
@@ -54,7 +15,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Kode smooth scroll (dapat dipertahankan)
+    // --- Contact Form Functionality ---
+    const contactForm = document.getElementById('contact-form');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            console.log(`Pesan baru dari ${name} (${email}): ${message}`);
+            
+            alert('Pesan Anda telah terkirim! Terima kasih.');
+
+            contactForm.reset();
+        });
+    }
+
+    // --- Smooth Scroll Functionality ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -64,4 +44,54 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // --- Typing Animation for Project Descriptions ---
+    const projectDescriptions = document.querySelectorAll('.project-card p');
+
+    projectDescriptions.forEach((desc) => {
+        const text = desc.textContent;
+        desc.textContent = '';
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                desc.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 20); 
+            }
+        }
+        
+        typeWriter();
+    });
+
+    // --- Typing Animation for Hero Section ---
+    const heroTitle = document.querySelector('#hero h1');
+    const heroSubtitle = document.querySelector('#hero p');
+    const heroTitleText = 'Hello, I\'m Rizky Permana';
+    const heroSubtitleText = 'Frontend Developer';
+    heroTitle.textContent = '';
+    heroSubtitle.textContent = '';
+
+    let titleIndex = 0;
+    let subtitleIndex = 0;
+
+    function typeTitle() {
+        if (titleIndex < heroTitleText.length) {
+            heroTitle.textContent += heroTitleText.charAt(titleIndex);
+            titleIndex++;
+            setTimeout(typeTitle, 50); // Kecepatan ketikan judul
+        } else {
+            setTimeout(typeSubtitle, 500); // Jeda sebelum mengetik subtitle
+        }
+    }
+
+    function typeSubtitle() {
+        if (subtitleIndex < heroSubtitleText.length) {
+            heroSubtitle.textContent += heroSubtitleText.charAt(subtitleIndex);
+            subtitleIndex++;
+            setTimeout(typeSubtitle, 50); // Kecepatan ketikan subtitle
+        }
+    }
+    
+    typeTitle();
 });
