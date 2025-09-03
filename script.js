@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     // --- Hamburger Menu Functionality ---
     const hamburgerMenu = document.getElementById('hamburger-menu'); 
     const navLinks = document.getElementById('nav-links'); 
@@ -46,52 +47,62 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Typing Animation for Project Descriptions ---
-    const projectDescriptions = document.querySelectorAll('.project-card p');
+    function startProjectTypingAnimation() {
+        const projectDescriptions = document.querySelectorAll('.project-card p');
+        projectDescriptions.forEach((desc) => {
+            const text = desc.textContent;
+            desc.textContent = '';
+            let i = 0;
 
-    projectDescriptions.forEach((desc) => {
-        const text = desc.textContent;
-        desc.textContent = '';
-        let i = 0;
+            function typeWriter() {
+                if (i < text.length) {
+                    desc.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 20);
+                }
+            }
+            typeWriter();
+        });
+    }
 
-        function typeWriter() {
-            if (i < text.length) {
-                desc.textContent += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 20); 
+    // --- Typing Animation for Hero Section ---
+    function startHeroTypingAnimation() {
+        const heroTitle = document.querySelector('#hero h1');
+        const heroSubtitle = document.querySelector('#hero p');
+        
+        if (!heroTitle || !heroSubtitle) return; // Exit if elements are not found
+
+        const heroTitleText = 'Hello, I\'m Rizky Permana';
+        const heroSubtitleText = 'Frontend Developer';
+
+        heroTitle.textContent = '';
+        heroSubtitle.textContent = '';
+
+        let titleIndex = 0;
+        let subtitleIndex = 0;
+
+        function typeTitle() {
+            if (titleIndex < heroTitleText.length) {
+                heroTitle.textContent += heroTitleText.charAt(titleIndex);
+                titleIndex++;
+                setTimeout(typeTitle, 50);
+            } else {
+                setTimeout(typeSubtitle, 500);
+            }
+        }
+
+        function typeSubtitle() {
+            if (subtitleIndex < heroSubtitleText.length) {
+                heroSubtitle.textContent += heroSubtitleText.charAt(subtitleIndex);
+                subtitleIndex++;
+                setTimeout(typeSubtitle, 50);
             }
         }
         
-        typeWriter();
-    });
-
-    // --- Typing Animation for Hero Section ---
-    const heroTitle = document.querySelector('#hero h1');
-    const heroSubtitle = document.querySelector('#hero p');
-    const heroTitleText = 'Hello, I\'m Rizky Permana';
-    const heroSubtitleText = 'Frontend Developer';
-    heroTitle.textContent = '';
-    heroSubtitle.textContent = '';
-
-    let titleIndex = 0;
-    let subtitleIndex = 0;
-
-    function typeTitle() {
-        if (titleIndex < heroTitleText.length) {
-            heroTitle.textContent += heroTitleText.charAt(titleIndex);
-            titleIndex++;
-            setTimeout(typeTitle, 50); // Kecepatan ketikan judul
-        } else {
-            setTimeout(typeSubtitle, 500); // Jeda sebelum mengetik subtitle
-        }
-    }
-
-    function typeSubtitle() {
-        if (subtitleIndex < heroSubtitleText.length) {
-            heroSubtitle.textContent += heroSubtitleText.charAt(subtitleIndex);
-            subtitleIndex++;
-            setTimeout(typeSubtitle, 50); // Kecepatan ketikan subtitle
-        }
+        typeTitle();
     }
     
-    typeTitle();
+    // Call the animation functions when the DOM is fully loaded
+    startHeroTypingAnimation();
+    startProjectTypingAnimation();
 });
